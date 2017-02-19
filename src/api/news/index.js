@@ -28,7 +28,7 @@ export default ({ config }) => {
 }
 
 // create list of words (wordBank) by pulling news data from various sources
-function getSousrces() {
+function getSources() {
 	getAllNewsApi()
 
 }
