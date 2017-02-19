@@ -1,0 +1,48 @@
+{
+  "name": "newspoint",
+  "version": "0.1.0",
+  "description": "Live news aggregation API",
+  "main": "dist",
+  "scripts": {
+    "dev": "nodemon -w src --exec \"babel-node src --presets es2015,stage-0\"",
+    "build": "babel src -s -D -d dist --presets es2015,stage-0",
+    "start": "node dist",
+    "prestart": "npm run -s build",
+    "test": "eslint src"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 7,
+      "sourceType": "module"
+    },
+    "env": {
+      "node": true
+    },
+    "rules": {
+      "no-console": 0,
+      "no-unused-vars": 1
+    }
+  },
+  "author": "wrobbinz",
+  "license": "MIT",
+  "dependencies": {
+    "babel-cli": "^6.9.0",
+    "babel-core": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "body-parser": "^1.13.3",
+    "compression": "^1.5.2",
+    "cors": "^2.7.1",
+    "d3-cloud": "^1.2.4",
+    "express": "^4.13.3",
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1",
+    "resource-router-middleware": "^0.6.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "eslint": "^3.1.1",
+    "nodemon": "^1.9.2"
+  }
+}
