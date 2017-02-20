@@ -19,8 +19,8 @@ let sourceString 		= ""
 export default ({ config }) => {
   let news = Router()
   news.get('/', function(req, res){
-  	var check = getSources()
-		res.json({ check })
+    var cloudObj = getSources()
+		res.json({ cloudObj })
 	})
 
   return news
@@ -51,7 +51,6 @@ function getNewsApi() {
       console.log(err)
     })
 	}
-  return finished
 }
 
 // analyse word bank for patterns/trends
