@@ -12,62 +12,61 @@ const newsApiSource	= ["ars-technica", "associated-press", "bbc-news", "bbc-spor
 const newsSection	= ["business", "entertainment", "general", "politics", "science", "sports", "technology"]
 const filteredWord	= ["it", "be", "if", "in", "then", "than", "a", "but", "or", "and", "why", "on", "out", "is", "at", "to", "the", "are", "for", "of", "as"]
 let rank			= "top"
-let finished		= _.after(newsApiSource.length, processWordBank)
-let wordBank 		= ""
+let sourceString 		= ""
 
 
 // router
 export default ({ config }) => {
   let news = Router()
   news.get('/', function(req, res){
-  		getSources()
-		res.json({ version })
+  	var check = getSources()
+		res.json({ check })
 	})
 
   return news
 }
 
-// create list of words (wordBank) by pulling news data from various sources
+// create list of words (sourceString) by pulling news data from various sources
 function getSources() {
-	getAllNewsApi()
+	return getNewsApi()
 
 }
 // NEWS API
 // GET top 10 news article titles from News API (news sources are determined by the values of newsApiSource array)
-function getAllNewsApi() {
+function getNewsApi() {
+  var finished = _.after(newsApiSource.length, processWordBank)
 	for(var i = 0; i < newsApiSource.length; i++) {
-		getNewsApi(i)
+    let options = {
+      uri: 'https://newsapi.org/v1/articles?source=' + newsApiSource[i] + '&sortBy=' + rank + '&apiKey=' + apiKey,
+      json: true
+    }
+    rp(options)
+    .then(function (res) {
+      let articles = res.articles // grab article objects from the response
+      let articleTitles = " " + _.pluck(articles, 'title') // extract title of each news article
+      sourceString += " " + articleTitles // add all titles to the word bank
+      finished() // this async task has finished
+    })
+    .catch(function (err) {
+      console.log(err)
+    })
 	}
+  return finished
 }
-// add article titles  of specified article (newsApiSource[i]) to wordBank
-function getNewsApi(i){
-	let options = {
-			uri: 'https://newsapi.org/v1/articles?source=' + newsApiSource[i] + '&sortBy=' + rank + '&apiKey=' + apiKey,
-			json: true
-		}
-	return rp(options)
-		.then(function (res) {
-			let articles = res.articles // grab article objects from the response
-			let articleTitles = " " + _.pluck(articles, 'title') // extract title of each news article
-			wordBank += " " + articleTitles // add all titles to the word bank
-			finished() // this async task has finished
-		})
-		.catch(function (err) {
-			console.log(err)
-		})
-}
+
 // analyse word bank for patterns/trends
 function processWordBank(){
-	var wordBankArray = refineWordBank()
-  wordBankArray = combineCommon(wordBankArray)
-  var wordCloud = getWordFreq(wordBankArray)
-  
-  console.log(wordCloud)
+	var sourceArray = refineSource(sourceString)
+  sourceArray = combineCommon(sourceArray)
+  sourceArray = getWordFreq(sourceArray)
+  var obj = sortToObject(sourceArray[0], sourceArray[1])
+  console.log(obj)
+  return obj
 }
 
 // clean up list of words (remove unwanted chars, toLowerCase, remove undefined) and return it in array form
-function refineWordBank(){
-	wordBank = wordBank.replace(/,/g, " ") // remove ",", replace with " "
+function refineSource(string){
+	var arr = string.replace(/,/g, " ") // remove ",", replace with " "
 		.replace(/\./g, "") // remove ".", replace with " "
 		.replace(/!/g, " ") 
 		.replace(/\?/g, " ")
@@ -83,18 +82,21 @@ function refineWordBank(){
 		.replace(/  /g, " ") // Remove "  ", replace with " "
 		.replace(/\/r\//g, " ") // remove "/r/", replace with " "  (reddit)
     .split(' ')
-  for(var i = 0; i < wordBank.length; i++) {
-    wordBank[i] = wordBank[i].toLowerCase()
+  // convert all words to lowercase
+  for(var i = 0; i < arr.length; i++) {
+    arr[i] = arr[i].toLowerCase()
   }
-  for (var i = 0; i < wordBank.length; i++) {
+  // remove all unwanted words using the filteredWord array
+  for (var i = 0; i < arr.length; i++) {
     for (var j = 0; j < filteredWord.length; j++) {
-      if (wordBank[i] == filteredWord[j]) {
-        wordBank[i] = ''
+      if (arr[i] == filteredWord[j]) {
+        arr[i] = ''
       }
     }
   }
-  wordBank.clean('')
-  return wordBank
+  // remove any items that are just empty spaces
+  arr.clean('')
+  return arr
 	
 }
 
@@ -133,32 +135,39 @@ function combineCommon(arr) {
 }
 
 
-
 function getWordFreq(arr) {
-  var string = arr.toString().replace(/,/g , " ")
-  return string.replace(/[.]/g, '')
-    .split(/\s/)
-    .reduce((map, word) =>
-      Object.assign(map, {
-        [word]: (map[word])
-          ? map[word] + 1
-          : 1,
-      }),
-      {}
-    );
+    var a = [], b = [], prev;
+
+    arr.sort();
+    for ( var i = 0; i < arr.length; i++ ) {
+        if ( arr[i] !== prev ) {
+            a.push(arr[i]);
+            b.push(1);
+        } else {
+            b[b.length-1]++;
+        }
+        prev = arr[i];
+    }
+
+    return [a, b];
 }
 
-
-
-// var wordPairs = []
-// var len = oFullResponse.results.length;
-// for (var i = 0; i < len; i++) {
-//     arr.push({
-//         key: oFullResponse.results[i].label,
-//         sortable: true,
-//         resizeable: true
-//     });
-// }
+// myArray = [{"text":"First","size":15},{"text":"Not","size":29}]
+function sortToObject(words, count) {
+  var obj = []
+  for (var i = 0; i < words.length; i++){
+    var element = {}
+    element.text = words[i]
+    element.size = count[i]
+    obj.push(element)
+  }
+  obj.sort(function(a,b){
+      return b.size - a.size;
+      }
+  );
+  JSON.stringify(obj)
+  return obj
+}
 
 // utility
 Array.prototype.clean = function(deleteValue) {
