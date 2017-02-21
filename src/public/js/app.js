@@ -33,7 +33,7 @@ function loadCloud(response){
   var myArray = JSON.parse(response)
   var fillColor = d3.scale.linear()
             .domain([0,1,2,3,4,5,6,10,15,20,100])
-            .range(["#00C8FA", "#3dd8ff", "#6de1ff", "#8ce8ff", "#444", "#555", "#666", "#777", "#888", "#999", "#aaa", "bbb"]);
+            .range(["#00C8FA", "#3dd8ff", "#6de1ff", "#6de1ff", "#8ce8ff", "#444", "#555", "#666", "#777", "#888", "#999", "#aaa"]);
   var w = 1000, // if you modify this also modify .append("g") .attr -- as half of this
       h = 500;
 

@@ -10,7 +10,7 @@ import _ 				from 'underscore'
 const apiKey		= "cf2cec0cee9544839c4ade13a131f33a"
 const newsApiSource	= ["abc-news-au", "ars-technica", "associated-press", "bbc-news", "bbc-sport", "bloomberg", "business-insider", "cnbc", "cnn", "engadget", "entertainment-weekly", "espn", "financial-times", "fox-sports", "google-news", "hacker-news", "ign", "independent", "mashable", "national-geographic", "new-scientist", "newsweek", "reddit-r-all", "reuters", "techcrunch", "the-economist", "the-guardian-uk", "the-huffington-post", "the-new-york-times", "the-next-web", "the-verge", "the-wall-street-journal", "the-washington-post", "time", "usa-today"] 
 const newsSection	= ["business", "entertainment", "all", "politics", "sports", "technology"]
-const filteredWord	= ["his", "her", "between", "just", "when", "too", "also", "they", "that", "&", "has", "been", "into", "had", "not", "this", "was", "its", "their", "so", "after", "with", "over", "what", "from", "by", "an", "could", "how", "i",  "it", "be", "if", "in", "then", "than", "a", "but", "or", "and", "why", "on", "out", "is", "at", "to", "the", "are", "for", "of", "as"]
+const filteredWord	= ["have", "no", "yes", "can", "ign", "which", "some", "were", "he", "she", "about", "his", "her", "between", "just", "when", "too", "also", "they", "that", "&", "has", "been", "into", "had", "not", "this", "was", "its", "their", "so", "after", "with", "over", "what", "from", "by", "an", "could", "how", "i",  "it", "be", "if", "in", "then", "than", "a", "but", "or", "and", "why", "on", "out", "is", "at", "to", "the", "are", "for", "of", "as"]
 let rank			= "top"
 
 
