@@ -1,45 +1,80 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <link href="/css/materialize.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="/js/materialize.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="/d3.layout.cloud.js"></script>
+    <script src="/js/d3.layout.cloud.js"></script>
+    <script src="/js/app.js"></script>
   </head>
   <body>
-  <h1>res.sendFile() Works!</h1>
+    <header>
+    <nav class="nav-extended white z-depth-0">
+    <div class="nav-wrapper">
+      <a href="/" class="brand-logo">&nbsp;&nbsp;&nbsp;newspoint</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse cyan-text"><i class="material-icons">menu</i></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="/about">About</a></li>
+        <li><a href="/api/news">API&nbsp;&nbsp;&nbsp;</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li><a href="/about">About</a></li>
+        <li><a href="/api/news">API</a></li>
+      </ul>
+    </div>
+    <div class="nav-content">
+      <ul class="tabs tabs-transparent">
+        <li class="tab"><a href="#test1" class="active">All</a></li>
+        <li class="tab"><a href="#test2">Politics</a></li>
+        <li class="tab"><a href="#test3">Business</a></li>
+        <li class="tab"><a href="#test4">Technology</a></li>
+        <li class="tab"><a href="#test4">Entertainment</a></li>
+      </ul>
+    </div>
+  </nav>
+  </header>
+  <main>
+  <div class="section" id="index-banner">
+    <div class="container main-section">
+      <div class="cloud">
+      </div>
+    </div>
+  </div>
+  </main>
+  <footer class="page-footer white">
+          <div class="container">
+            <div class="row">
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container grey-text">
+            Made with <a href="https://newsapi.org">News API</a>
+            <a class="right" href="http://wrobbins.me">@wrobbinz</a>
+            </div>
+          </div>
+        </footer>
+  <!-- <footer class="page-footer white">
+      <div class="footer-copyright">
+        <div class="container cyan-text">
+        Made by <a class="cyan-text" href="http://wrobbins.me">@wrobbinz</a>
+        </div>
+      </div>
+  </footer> -->
+
     <script>
-    myArray = [{"text":"First","size":15},{"text":"Not","size":29},{"text":"Bird","size":80},{"text":"Trump","size": 82},{"text":"Hello","size":40},{"text":"Word","size":76},{"text":"Marketplaces","size":75},{"text":"Flynn","size":30},{"text":"Marketplaces","size":75},{"text":"Marketplaces","size":75},{"text":"Marketplaces","size":75},{"text":"Marketplaces","size":75},{"text":"Marketplaces","size":75},{"text":"Marketplaces","size":75},{"text":"Marketplaces","size":75},{"text":"Marketplaces","size":75}]
-     var fillColor = d3.scale.category20b();
-      var w = 800, // if you modify this also modify .append("g") .attr -- as half of this
-          h = 600;
-
-      d3.layout.cloud().size([w, h])
-          .words(myArray) // from list.js
-          .padding(5)
-          .rotate(0)      
-          .font("Arial")
-          .fontSize(function(d) { return d.size; })
-          .on("end", drawCloud)
-          .start();
-
-      function drawCloud(words) {
-        d3.select("body").append("svg")
-            .attr("width", w)
-            .attr("height", h)
-          .append("g")
-          .attr("transform", "translate(" + w/2 + "," + h/2 + ")")
-          .selectAll("text")
-            .data(words)
-            .enter().append("text")
-            .style("font-size", function(d) { return (d.size) + "px"; })
-            .style("font-family", "Arial")
-            .style("fill", function(d, i) { return fillColor(i); })
-            .attr("text-anchor", "middle")
-            .attr("transform", function(d,i) {
-                  return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-                }
-            )
-          .text(function(d) { return d.text; });
-      }
+      // Use it!
+      $(".button-collapse").sideNav();
+      get('http://localhost:8000/api/news')
+        .then(function(response) {
+          loadCloud(response)
+        }, function(error) {
+          console.error("Failed!", error)
+      })  
     </script>
   </body>
 </html>

@@ -1,0 +1,88 @@
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+      <link href="/css/materialize.css" rel="stylesheet">
+      <link href="/css/app.css" rel="stylesheet">
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script src="/js/materialize.min.js"></script>
+      <script src="http://d3js.org/d3.v3.min.js"></script>
+      <script src="/js/d3.layout.cloud.js"></script>
+      <script src="/js/app.js"></script>
+    </head>
+    <body>
+      <header>
+      <nav class="nav-extended white z-depth-0">
+      <div class="nav-wrapper">
+        <a href="/" class="brand-logo">&nbsp;&nbsp;&nbsp;newspoint</a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse cyan-text"><i class="material-icons">menu</i></a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="/about">About</a></li>
+          <li><a href="/api/news">API&nbsp;&nbsp;&nbsp;</a></li>
+        </ul>
+        <ul class="side-nav" id="mobile-demo">
+          <li><a href="/about">About</a></li>
+          <li><a href="/api/news">API</a></li>
+        </ul>
+      </div>
+      <div class="nav-content">
+        <ul class="tabs tabs-transparent">
+          <li class="tab"><a href="#test1" class="active">All</a></li>
+          <li class="tab"><a href="#test2">Politics</a></li>
+          <li class="tab"><a href="#test3">Business</a></li>
+          <li class="tab"><a href="#test4">Technology</a></li>
+          <li class="tab"><a href="#test4">Entertainment</a></li>
+        </ul>
+      </div>
+    </nav>
+    </header>
+    <main>
+    <div class="section" id="index-banner">
+      <div class="container">
+        <h3 class="header center">A different way to get news</h3>
+        <div class="row center">
+          <h5 class="header col s12 light">Broad Coverage</h5>
+          <p>Newspoint pulls from a wide variety of sources to determine and deliver the most noteworthy coverage. It currently pulls all data from the <a href="https://newsapi.org">News API</a>. Additional sources are currently being added.
+          <h5 class="header col s12 light">Smart Everyday</h5>
+          <p>Newspoint's algorithm to extract the most relevant news is constantly improving. It's not an AI or anything, but I'm always trying to improve the logic. Maybe someday!</p>
+          <h5 class="header col s12 light">Interactive</h5>
+          <p>Newspoint currently supports a robust, extremely documented API that cannot be used but will be once I implement Oauth and rate limits.</p>
+        </div>
+      </div>
+    </div>
+    </main>
+    <footer class="page-footer white">
+            <div class="container">
+              <div class="row">
+              </div>
+            </div>
+            <div class="footer-copyright">
+              <div class="container grey-text">
+              Made with <a href="https://newsapi.org">News API</a>
+              <a class="right" href="http://wrobbins.me">@wrobbinz</a>
+              </div>
+            </div>
+          </footer>
+    <!-- <footer class="page-footer white">
+        <div class="footer-copyright">
+          <div class="container cyan-text">
+          Made by <a class="cyan-text" href="http://wrobbins.me">@wrobbinz</a>
+          </div>
+        </div>
+    </footer> -->
+
+      <script>
+        // Use it!
+        $(".button-collapse").sideNav();
+        get('http://localhost:8000/api/news')
+          .then(function(response) {
+            console.log("success!", response)
+            loadCloud(response)
+          }, function(error) {
+            console.error("Failed!", error)
+        })  
+      </script>
+    </body>
+  </html>

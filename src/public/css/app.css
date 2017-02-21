@@ -1,0 +1,25 @@
+body {
+	display: flex!important;
+	min-height: 100vh!important;
+	flex-direction: column!important;
+}
+
+main {
+	flex: 1 0 auto!important;
+}
+
+.indicator {
+    background-color: #00C8FA!important;
+    color: #00C8FA;
+}
+
+.brand-logo{
+	color: #00C8FA;
+}
+
+a{
+	color:  #00C8FA!important;
+}
+.main-section{
+	margin-top: 30px;
+}

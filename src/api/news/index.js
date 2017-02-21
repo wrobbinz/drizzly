@@ -9,8 +9,8 @@ import _ 				from 'underscore'
 // global variables
 const apiKey		= "cf2cec0cee9544839c4ade13a131f33a"
 const newsApiSource	= ["ars-technica", "associated-press", "bbc-news", "bbc-sport", "bloomberg", "business-insider", "cnbc", "cnn", "engadget", "entertainment-weekly", "espn", "financial-times", "google-news", "hacker-news", "national-geographic", "new-scientist", "newsweek", "reddit-r-all", "reuters", "techcrunch", "the-economist", "the-guardian-uk", "the-huffington-post", "the-new-york-times", "the-wall-street-journal", "the-washington-post", "time", "usa-today"] 
-const newsSection	= ["business", "entertainment", "general", "politics", "science", "sports", "technology"]
-const filteredWord	= ["it", "be", "if", "in", "then", "than", "a", "but", "or", "and", "why", "on", "out", "is", "at", "to", "the", "are", "for", "of", "as"]
+const newsSection	= ["business", "entertainment", "all", "politics", "sports", "technology"]
+const filteredWord	= ["has", "been", "into", "had", "not", "this", "was", "its", "their", "so", "after", "with", "over", "what", "from", "by", "an", "could", "how", "i",  "it", "be", "if", "in", "then", "than", "a", "but", "or", "and", "why", "on", "out", "is", "at", "to", "the", "are", "for", "of", "as"]
 let rank			= "top"
 let sourceString 		= ""
 
@@ -19,8 +19,17 @@ let sourceString 		= ""
 export default ({ config }) => {
   let news = Router()
   news.get('/', function(req, res){
-    var cloudObj = getSources()
-		res.json({ cloudObj })
+    const cloudObj = getSources()
+    cloudObj.then(function (apiResponses) {
+      // Flatten the array
+      // From: [['source1article1', 'source1article2'], ['source2article1'], ...]
+      // To: ['source1article1', 'source1article2', 'source2article1', ...]
+      const articles = [].concat.apply([], apiResponses)
+      // Pass the articles as parameter
+      const theWords = processWordBank(articles)
+      // Respond with the processed object
+      res.json( theWords )
+    })
 	})
 
   return news
@@ -34,32 +43,36 @@ function getSources() {
 // NEWS API
 // GET top 10 news article titles from News API (news sources are determined by the values of newsApiSource array)
 function getNewsApi() {
-  var finished = _.after(newsApiSource.length, processWordBank)
-	for(var i = 0; i < newsApiSource.length; i++) {
+  // Each element is a request promise
+  const apiCalls = newsApiSource.map(function (source) {
     let options = {
-      uri: 'https://newsapi.org/v1/articles?source=' + newsApiSource[i] + '&sortBy=' + rank + '&apiKey=' + apiKey,
+      uri: 'https://newsapi.org/v1/articles?source=' + source + '&sortBy=' + rank + '&apiKey=' + apiKey,
       json: true
     }
-    rp(options)
-    .then(function (res) {
-      let articles = res.articles // grab article objects from the response
-      let articleTitles = " " + _.pluck(articles, 'title') // extract title of each news article
-      sourceString += " " + articleTitles // add all titles to the word bank
-      finished() // this async task has finished
-    })
-    .catch(function (err) {
-      console.log(err)
-    })
-	}
+    return rp(options)
+      .then(function (res) {
+        let articles = res.articles
+        let articleTitles = _.pluck(articles, 'title') + _.pluck(articles, 'description')
+        // The promise is fulfilled with the articleTitles
+        return articleTitles
+      })
+      .catch(function (err) {
+        console.log(err)
+      })
+  })
+  // Return the promise that is fulfilled with all request values
+  return Promise.all(apiCalls)
 }
 
+
 // analyse word bank for patterns/trends
-function processWordBank(){
-	var sourceArray = refineSource(sourceString)
-  sourceArray = combineCommon(sourceArray)
+function processWordBank(articles){
+  articles = articles.join() // combine all article titles into one array element
+	let sourceArray = refineSource(articles) // word cleanup
+  sourceArray = combineCommon(sourceArray) // combine all words that appear more than once ex: "white house", "bernie sanders"
   sourceArray = getWordFreq(sourceArray)
   var obj = sortToObject(sourceArray[0], sourceArray[1])
-  console.log(obj)
+  obj = obj.slice(0, 100)
   return obj
 }
 
@@ -101,54 +114,54 @@ function refineSource(string){
 
 // find array elements that appear together more than once, if so, combine them into single element
 function combineCommon(arr) {
-  var dictionary = {};
+  var dictionary = {}
   for (var a = 0; a < arr.length; a++) {
-    var A = arr[a];
+    var A = arr[a]
     if (dictionary[A] == undefined) {
-      dictionary[A] = [];
+      dictionary[A] = []
     }
-    dictionary[A].push(arr[a + 1]);
+    dictionary[A].push(arr[a + 1])
   }
   var res = [];
   arr.clean('')
   arr.clean(undefined)
   for (var index = 0; index < arr.length; index++) {
-    var element = arr[index];
-    var pass = false;
+    var element = arr[index]
+    var pass = false
     if (typeof dictionary[element] !== 'undefined' && dictionary[element].length > 1) {
       if (dictionary[element]
         .some(function(a) {
-          return a != dictionary[element][0];
+          return a != dictionary[element][0]
         }) == false) {
-        pass = true;
+        pass = true
       }
     }
     if (pass) {
-      res.push(arr[index] + " " + dictionary[element][0]);
-      index++;
+      res.push(arr[index] + " " + dictionary[element][0])
+      index++
     } else {
-      res.push(arr[index]);
+      res.push(arr[index])
     }
   }
-  return res;
+  return res
 }
 
 
 function getWordFreq(arr) {
     var a = [], b = [], prev;
 
-    arr.sort();
+    arr.sort()
     for ( var i = 0; i < arr.length; i++ ) {
         if ( arr[i] !== prev ) {
-            a.push(arr[i]);
-            b.push(1);
+            a.push(arr[i])
+            b.push(1)
         } else {
-            b[b.length-1]++;
+            b[b.length-1]++
         }
-        prev = arr[i];
+        prev = arr[i]
     }
 
-    return [a, b];
+    return [a, b]
 }
 
 // myArray = [{"text":"First","size":15},{"text":"Not","size":29}]
@@ -157,14 +170,15 @@ function sortToObject(words, count) {
   for (var i = 0; i < words.length; i++){
     var element = {}
     element.text = words[i]
+    count[i] = count[i]*2
     element.size = count[i]
     obj.push(element)
   }
   obj.sort(function(a,b){
-      return b.size - a.size;
+      return b.size - a.size
       }
-  );
-  JSON.stringify(obj)
+  )
+  // JSON.stringify(obj)
   return obj
 }
 
@@ -172,9 +186,9 @@ function sortToObject(words, count) {
 Array.prototype.clean = function(deleteValue) {
   for (var i = 0; i < this.length; i++) {
     if (this[i] == deleteValue) {         
-      this.splice(i, 1);
-      i--;
+      this.splice(i, 1)
+      i--
     }
   }
-  return this;
-};
+  return this
+}
