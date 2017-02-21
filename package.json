@@ -36,6 +36,7 @@
     "cors": "^2.7.1",
     "d3-cloud": "^1.2.4",
     "express": "^4.13.3",
+    "mongodb": "^2.2.24",
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
     "resource-router-middleware": "^0.6.0",

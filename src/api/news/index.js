@@ -10,9 +10,8 @@ import _ 				from 'underscore'
 const apiKey		= "cf2cec0cee9544839c4ade13a131f33a"
 const newsApiSource	= ["ars-technica", "associated-press", "bbc-news", "bbc-sport", "bloomberg", "business-insider", "cnbc", "cnn", "engadget", "entertainment-weekly", "espn", "financial-times", "google-news", "hacker-news", "national-geographic", "new-scientist", "newsweek", "reddit-r-all", "reuters", "techcrunch", "the-economist", "the-guardian-uk", "the-huffington-post", "the-new-york-times", "the-wall-street-journal", "the-washington-post", "time", "usa-today"] 
 const newsSection	= ["business", "entertainment", "all", "politics", "sports", "technology"]
-const filteredWord	= ["has", "been", "into", "had", "not", "this", "was", "its", "their", "so", "after", "with", "over", "what", "from", "by", "an", "could", "how", "i",  "it", "be", "if", "in", "then", "than", "a", "but", "or", "and", "why", "on", "out", "is", "at", "to", "the", "are", "for", "of", "as"]
+const filteredWord	= ["his", "her", "between", "just", "when", "too", "also", "they", "that", "&", "has", "been", "into", "had", "not", "this", "was", "its", "their", "so", "after", "with", "over", "what", "from", "by", "an", "could", "how", "i",  "it", "be", "if", "in", "then", "than", "a", "but", "or", "and", "why", "on", "out", "is", "at", "to", "the", "are", "for", "of", "as"]
 let rank			= "top"
-let sourceString 		= ""
 
 
 // router
@@ -26,9 +25,9 @@ export default ({ config }) => {
       // To: ['source1article1', 'source1article2', 'source2article1', ...]
       const articles = [].concat.apply([], apiResponses)
       // Pass the articles as parameter
-      const theWords = processWordBank(articles)
+      const wordCloud = processWordBank(articles)
       // Respond with the processed object
-      res.json( theWords )
+      res.json( wordCloud )
     })
 	})
 
