@@ -63,6 +63,9 @@ function loadCloud(response){
               return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
             }
         )
-      .text(function(d) { return d.text; });
+      .text(function(d) { return d.text; })
+      .on("click", function (d, i){
+          window.open(d.url, "_blank");
+      });
   }
 }

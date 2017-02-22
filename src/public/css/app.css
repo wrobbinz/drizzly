@@ -13,13 +13,18 @@ main {
     color: #00C8FA;
 }
 
-.brand-logo{
+.brand-logo {
 	color: #00C8FA;
 }
 
-a{
+a {
 	color:  #00C8FA!important;
 }
-.main-section{
+.main-section {
 	margin-top: 30px;
+}
+
+.cloud svg text {
+	cursor: pointer;
+	cursor: hand;
 }
