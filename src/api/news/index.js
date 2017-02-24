@@ -1,25 +1,20 @@
-import { version } 		from '../../../package.json'
-import { Router } 		from 'express'
-import https 			from 'https'
-import bodyParser 		from 'body-parser'
-import rp 				from 'request-promise'
-import _ 				from 'underscore'
-
+import { version } 		        from '../../../package.json'
+import { Router } 		        from 'express'
+import https 			            from 'https'
+import bodyParser 		        from 'body-parser'
+import rp 				            from 'request-promise'
+import _                      from 'underscore'
+import { newsApiSource, filteredWord }      from './modules/sources'
 
 // global variables
-const apiKey		= "cf2cec0cee9544839c4ade13a131f33a"
-const newsApiSource	= ["abc-news-au", "ars-technica", "associated-press", "bbc-news", "bbc-sport", "bloomberg", "business-insider", "cnbc", "cnn", "engadget", "entertainment-weekly", "espn", "financial-times", "fox-sports", "google-news", "hacker-news", "ign", "independent", "mashable", "national-geographic", "new-scientist", "newsweek", "reddit-r-all", "reuters", "techcrunch", "the-economist", "the-guardian-uk", "the-huffington-post", "the-new-york-times", "the-next-web", "the-verge", "the-wall-street-journal", "the-washington-post", "time", "usa-today"] 
-const newsSection	= ["business", "entertainment", "all", "politics", "sports", "technology"]
-const filteredWord	= ["have", "no", "yes", "can", "ign", "which", "some", "were", "he", "she", "about", "his", "her", "between", "just", "when", "too", "also", "they", "that", "&", "has", "been", "into", "had", "not", "this", "was", "its", "their", "so", "after", "with", "over", "what", "from", "by", "an", "could", "how", "i",  "it", "be", "if", "in", "then", "than", "a", "but", "or", "and", "why", "on", "out", "is", "at", "to", "the", "are", "for", "of", "as"]
-let rank			= "top"
-
+const apiKey		      = "cf2cec0cee9544839c4ade13a131f33a"
 
 // router
 export default ({ config }) => {
   let news = Router()
-  news.get('/', function(req, res){
+  news.get('/', (req, res) => {
     const cloudObj = getSources()
-    cloudObj.then(function (apiResponses) {
+    cloudObj.then((apiResponses) => {
       // Flatten the array
       // From: [['source1article1', 'source1article2'], ['source2article1'], ...]
       // To: ['source1article1', 'source1article2', 'source2article1', ...]
@@ -35,28 +30,30 @@ export default ({ config }) => {
 }
 
 // create list of words (sourceString) by pulling news data from various sources
-function getSources() {
+var getSources = () => {
 	return getNewsApi()
 
 }
 // NEWS API
 // GET top 10 news article titles from News API (news sources are determined by the values of newsApiSource array)
-function getNewsApi() {
+var getNewsApi = () => {
   // Each element is a request promise
-  const apiCalls = newsApiSource.map(function (source) {
+  const apiCalls = newsApiSource.map((source) => {
     let options = {
-      uri: 'https://newsapi.org/v1/articles?source=' + source + '&sortBy=' + rank + '&apiKey=' + apiKey,
+      uri: 'https://newsapi.org/v1/articles?source=' + source.name + '&sortBy=' + source.sort + '&apiKey=' + apiKey,
       json: true
     }
     return rp(options)
-      .then(function (res) {
+      .then((res) => {
         let articles = res.articles
-        let articleTitles = _.pluck(articles, 'title') + _.pluck(articles, 'description')
-        // The promise is fulfilled with the articleTitles
-        return articleTitles
+        // grab the url of each article. each url needs to be associated with a word
+        let articleUrls = _.pluck(articles, 'url')       
+        let articleWords = _.pluck(articles, 'title') + _.pluck(articles, 'description')
+        // The promise is fulfilled with the articleWords
+        return articleWords
       })
-      .catch(function (err) {
-        console.log(err)
+      .catch((err) => {
+        console.log('Warning: NewsApi request for [', source.name, '] failed...')
       })
   })
   // Return the promise that is fulfilled with all request values
@@ -65,7 +62,7 @@ function getNewsApi() {
 
 
 // analyse word bank for patterns/trends
-function processWordBank(articles){
+var processWordBank = (articles) => {
   articles = articles.join() // combine all article titles into one array element
 	let sourceArray = refineSource(articles) // word cleanup
   sourceArray = combineCommon(sourceArray) // combine all words that appear more than once ex: "white house", "bernie sanders"
@@ -76,27 +73,11 @@ function processWordBank(articles){
 }
 
 // clean up list of words (remove unwanted chars, toLowerCase, remove undefined) and return it in array form
-function refineSource(string){
-	var arr = string.replace(/,/g, " ") // remove ",", replace with " "
-		.replace(/\./g, "") // remove ".", replace with " "
-		.replace(/!/g, " ") 
-		.replace(/\?/g, " ")
-		.replace(/\u2022/g, " ") // remove "•", replace with " "
-		.replace(/-/g, " ") // remove " - ", replace with " "
-		.replace(/—/g, " ")
-		.replace(/:/g, " ") // remove ":", replace with " "
-		.replace(/' /g, " ") // remove "' ", replace with " " (i.e. unecessary single quotes)
-		.replace(/ '/g, " ") // remove " '", replace with " " (i.e. unecessary single quotes)
-		.replace(/'s/g, "")
-		.replace(/[\u2018\u2019\u201A\u201B\u2032\u2035]/g, "") // remove left quote, replace with " "
-		.replace(/\|/g, "")
-		.replace(/  /g, " ") // Remove "  ", replace with " "
-		.replace(/\/r\//g, " ") // remove "/r/", replace with " "  (reddit)
-    .split(' ')
-  // convert all words to lowercase
-  for(var i = 0; i < arr.length; i++) {
-    arr[i] = arr[i].toLowerCase()
-  }
+var refineSource = (str) => {
+	var arr = str.replace(/–|"|,|!|\?|\u2022|-|—|:|' | '|\/r\/|  /g, ' ') // remove most special chars, replace with " "
+		.replace(/\.|…|'s|[\u2018\u2019\u201A\u201B\u2032\u2035]|\|/g, '') // remove specific chars
+    .split(' ') // convert to array
+    .map((x) => x.toLowerCase()) // convert all elements to lowercase
   // remove all unwanted words using the filteredWord array
   for (var i = 0; i < arr.length; i++) {
     for (var j = 0; j < filteredWord.length; j++) {
@@ -106,13 +87,13 @@ function refineSource(string){
     }
   }
   // remove any items that are just empty spaces
-  arr.clean('')
+  arr.clean('') // remove any elements that are null
   return arr
 	
 }
 
 // find array elements that appear together more than once, if so, combine them into single element
-function combineCommon(arr) {
+var combineCommon = (arr) => {
   var dictionary = {}
   for (var a = 0; a < arr.length; a++) {
     var A = arr[a]
@@ -129,7 +110,7 @@ function combineCommon(arr) {
     var pass = false
     if (typeof dictionary[element] !== 'undefined' && dictionary[element].length > 1) {
       if (dictionary[element]
-        .some(function(a) {
+        .some((a) => {
           return a != dictionary[element][0]
         }) == false) {
         pass = true
@@ -146,7 +127,7 @@ function combineCommon(arr) {
 }
 
 
-function getWordFreq(arr) {
+var getWordFreq = (arr) => {
     var a = [], b = [], prev;
 
     arr.sort()
@@ -164,7 +145,7 @@ function getWordFreq(arr) {
 }
 
 // myArray = [{"text":"First","size":15},{"text":"Not","size":29}]
-function sortToObject(words, count) {
+var sortToObject = (words, count) => {
   var obj = []
   for (var i = 0; i < words.length; i++){
     var element = {}
@@ -173,7 +154,7 @@ function sortToObject(words, count) {
     element.size = count[i]
     obj.push(element)
   }
-  obj.sort(function(a,b){
+  obj.sort((a,b) =>{
       return b.size - a.size
       }
   )
