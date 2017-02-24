@@ -3,7 +3,7 @@ import { Router } 		        from 'express'
 import https 			            from 'https'
 import bodyParser 		        from 'body-parser'
 import rp 				            from 'request-promise'
-import _                      from 'underscore'
+import _                      from 'lodash'
 import { newsApiSource, filteredWord }      from './modules/sources'
 
 // global variables
@@ -47,8 +47,10 @@ var getNewsApi = () => {
       .then((res) => {
         let articles = res.articles
         // grab the url of each article. each url needs to be associated with a word
-        let articleUrls = _.pluck(articles, 'url')       
-        let articleWords = _.pluck(articles, 'title') + _.pluck(articles, 'description')
+        let articleUrls = _.map(articles, 'url')
+        
+        console.log(articleUrls)
+        let articleWords = _.map(articles, 'title') + _.map(articles, 'description')
         // The promise is fulfilled with the articleWords
         return articleWords
       })
