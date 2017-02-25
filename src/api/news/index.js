@@ -40,7 +40,7 @@ var getNewsApi = () => {
   // Each element is a request promise
   const apiCalls = newsApiSource.map((source) => {
     let options = {
-      uri: 'https://newsapi.org/v1/articles?source=' + source.name + '&sortBy=' + source.sort + '&apiKey=' + apiKey,
+      uri: 'https://newsapi.org/v1/articles?source=' + source.name + '&sortBy=' + source.sort + '&apiKey=' + process.env.NEWSAPI_PASS,
       json: true
     }
     return rp(options)
