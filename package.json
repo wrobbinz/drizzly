@@ -38,6 +38,7 @@
     "express": "^4.13.3",
     "lodash": "^4.17.4",
     "mongodb": "^2.2.24",
+    "pg-promise": "^5.6.0",
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
     "resource-router-middleware": "^0.6.0"

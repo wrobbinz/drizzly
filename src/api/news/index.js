@@ -1,16 +1,12 @@
-import { version } 		        from '../../../package.json'
-import { Router } 		        from 'express'
-import https 			            from 'https'
-import bodyParser 		        from 'body-parser'
-import rp 				            from 'request-promise'
-import _                      from 'lodash'
-import { newsApiSource, filteredWord }      from './modules/sources'
-
-// global variables
-const apiKey		      = "cf2cec0cee9544839c4ade13a131f33a"
+import { Router } 		                  from 'express'
+import https 			                      from 'https'
+import bodyParser 		                  from 'body-parser'
+import rp 				                      from 'request-promise'
+import _                                from 'lodash'
+import { newsApiSource, filteredWord }  from './modules/sources'
 
 // router
-export default ({ config }) => {
+export default ({ config, db }) => {
   let news = Router()
   news.get('/', (req, res) => {
     const cloudObj = getSources()
@@ -25,6 +21,9 @@ export default ({ config }) => {
       res.json( wordCloud )
     })
 	})
+  news.post('/', (req, res) => {
+    console.log('POST request to /news/')
+  })
 
   return news
 }
@@ -48,8 +47,6 @@ var getNewsApi = () => {
         let articles = res.articles
         // grab the url of each article. each url needs to be associated with a word
         let articleUrls = _.map(articles, 'url')
-        
-        console.log(articleUrls)
         let articleWords = _.map(articles, 'title') + _.map(articles, 'description')
         // The promise is fulfilled with the articleWords
         return articleWords

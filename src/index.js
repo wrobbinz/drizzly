@@ -11,38 +11,37 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-let app = express();
-app.server = http.createServer(app);
+let app = express()
+app.server = http.createServer(app)
 
 // 3rd party middleware
 app.use(cors({
 	exposedHeaders: config.corsHeaders
-}));
+}))
 
 app.use(bodyParser.json({
 	limit : config.bodyLimit
-}));
+}))
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'))
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/index.html'));
-});
+    res.sendFile(path.join(__dirname + '/index.html'))
+})
 app.get('/about', function(req, res) {
-    res.sendFile(path.join(__dirname + '/public/about.html'));
-});
+    res.sendFile(path.join(__dirname + '/public/about.html'))
+})
 
 // connect to db
 initializeDb( db => {
-
 	// internal middleware
-	app.use(middleware({ config, db }));
+	app.use(middleware({ config, db }))
 
 	// api router
-	app.use('/api', api({ config, db }));
+	app.use('/api', api({ config, db }))
 
-	app.server.listen(process.env.PORT || config.port);
+	app.server.listen(process.env.PORT || config.port)
 
-	console.log(`Started on port ${app.server.address().port}`);
-});
+	console.log(`Started on port ${app.server.address().port}`)
+})
 
-export default app;
+export default app
