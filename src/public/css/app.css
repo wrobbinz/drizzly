@@ -9,16 +9,16 @@ main {
 }
 
 .indicator {
-    background-color: #00C8FA!important;
-    color: #00C8FA;
+    background-color: #265073!important;
+    color: #265073;
 }
 
 .brand-logo {
-	color: #00C8FA;
+	color: #265073;
 }
 
 a {
-	color:  #00C8FA!important;
+	color:  #265073!important;
 }
 .main-section {
 	margin-top: 30px;
@@ -27,4 +27,16 @@ a {
 .cloud svg text {
 	cursor: pointer;
 	cursor: hand;
+}
+
+.tab:hover{
+	background-color: #265073;
+}
+.tab a:hover{
+	color: #FFF!important;
+}
+
+.spinner-blue,
+.spinner-blue-only {
+  border-color: #265073!important;
 }

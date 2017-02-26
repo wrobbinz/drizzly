@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>NewsPoint | Current News Cloud</title>
-    <meta name="description" content="NewsPoint is a real time word cloud that pulls from various sources to best deliver trends">
+    <title>Drizzly | Current News Cloud</title>
+    <meta name="description" content="Drizzly is a real time word cloud that pulls from various sources to best deliver trends">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="https://fonts.googleapis.com/css?family=Yantramanav" rel="stylesheet">
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
     <link href="/css/materialize.css" rel="stylesheet">
     <link href="/css/app.css" rel="stylesheet">
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -16,9 +16,9 @@
   </head>
   <body>
     <header>
-      <nav class="nav-extended white z-depth-0">
+      <nav class="nav-extended grey lighten-4 z-depth-0">
         <div class="nav-wrapper">
-          <a href="/" class="brand-logo">&nbsp;&nbsp;&nbsp;newspoint</a>
+          <a href="/" class="brand-logo">&nbsp;&nbsp;&nbsp;drizzly</a>
           <a href="#" data-activates="mobile-demo" class="button-collapse cyan-text"><i class="material-icons">menu</i></a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="/about">About</a></li>
@@ -35,16 +35,26 @@
             <li class="tab"><a href="#test2">Politics</a></li>
             <li class="tab"><a href="#test3">Business</a></li>
             <li class="tab"><a href="#test4">Technology</a></li>
-            <li class="tab"><a href="#test4">Entertainment</a></li>
+            <li class="tab"><a href="#test4">Sports</a></li>
+            <li class="tab"><a href="#test4">Music</a></li>
           </ul>
         </div>
       </nav>
     </header>
   <main>
     <div class="section" id="index-banner">
-      <div class="container main-section">
-        <div class="cloud">
-        </div>
+      <div class="cloud valign-wrapper">
+        <!-- <div id="spinner" class="preloader-wrapper valign big active">
+          <div class="spinner-layer spinner-blue-only">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div> -->
       </div>
     </div>
   </main>
@@ -56,15 +66,5 @@
       </div>
     </div>
   </footer>
-  <script>
-      // Use it!
-      $(".button-collapse").sideNav();
-      get('http://localhost:8000/api/news')
-      .then(function(response) {
-        loadCloud(response)
-      }, function(error) {
-        console.error("Failed!", error)
-      })  
-    </script>
   </body>
 </html>

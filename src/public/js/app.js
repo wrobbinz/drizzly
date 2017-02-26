@@ -1,3 +1,13 @@
+$(".button-collapse").sideNav();
+get('http://localhost:8000/api/news')
+.then(function(response) {
+  // document.getElementById("spinner").className = document.getElementById("spinner").className.replace( /(?:^|\s)active(?!\S)/g , '' )
+  loadCloud(response)
+}, function(error) {
+  console.error("Failed!", error)
+})  
+
+
 function get(url) {
   // Return a new promise.
   return new Promise(function(resolve, reject) {
@@ -33,15 +43,18 @@ function loadCloud(response){
   var myArray = JSON.parse(response)
   var fillColor = d3.scale.linear()
             .domain([0,1,2,3,4,5,6,10,15,20,100])
-            .range(["#00C8FA", "#3dd8ff", "#6de1ff", "#6de1ff", "#8ce8ff", "#8ce8ff", "#555", "#666", "#777", "#888", "#999", "#aaa"])
-  var w = 1000 // if you modify this also modify .append("g") .attr -- as half of this
-  var h = 500
+            .range(["#bf4240", "#122336", "#14243D", "#1B3650", "#1B3E50", "#265073", "#2E638A", "#337599", "#397EAC", "#4B95C3", "#579AC7", "#6AA1CD"])
+  
+
+  var w = window.screen.width // if you modify this also modify .append("g") .attr -- as half of this
+  var h = window.screen.height - 162
+  console.log(w, h)
 
   d3.layout.cloud().size([w, h])
       .words(myArray) // from list.js
       .padding(5)
       .rotate(0)      
-      .font("Roboto")
+      .font("Yantramanav")
       .fontSize(function(d) { return d.size })
       .on("end", drawCloud)
       .start()
@@ -56,7 +69,7 @@ function loadCloud(response){
         .data(words)
         .enter().append("text")
         .style("font-size", function(d) { return (d.size) + "px" })
-        .style("font-family", "Roboto")
+        .style("font-family", "Yantramanav")
         .style("fill", function(d, i) { return fillColor(i) })
         .attr("text-anchor", "middle")
         .attr("transform", function(d,i) {

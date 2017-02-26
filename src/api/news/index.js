@@ -67,9 +67,20 @@ var processWordBank = (articles) => {
   sourceArray = combineCommon(sourceArray) // combine all words that appear more than once ex: "white house", "bernie sanders"
   sourceArray = getWordFreq(sourceArray)
   var obj = sortToObject(sourceArray[0], sourceArray[1])
-  obj = obj.slice(0, 100)
+  obj = obj.slice(0, 200)
+  obj = normalizeSize(obj)
   return obj
 }
+
+var normalizeSize = (arr) => {
+      let ratio = arr[0].size / 220, l = arr.length, i
+
+  for (i = 0; i < l; i++) {
+      arr[i].size = Math.round(arr[i].size / ratio);
+  }
+  return arr
+}
+
 
 // clean up list of words (remove unwanted chars, toLowerCase, remove undefined) and return it in array form
 var refineSource = (str) => {
