@@ -21,3 +21,14 @@ GET /api/news/
    - Google Trend / Hashtag weight can depend on intensity of trend (i.e. spike in searches / hashtag usage)
 
  4. Return data
+
+
+
+
+ TODO:
+ - grab urls from newsAPI and add to words for clicking
+ - add reddit API, twitter API? scrape trends?
+ - filters
+ - weighted
+ - logarithmic scaling
+ - about page cleanup

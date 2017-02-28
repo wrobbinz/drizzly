@@ -24,7 +24,8 @@ export default ({ config }) => {
 }
 
 let createAllNews = (req, res) => {
-  console.log('All News Updated @ Interval: ', INTERVAL/1000, ' seconds')
+  let time = Math.floor(Date.now() / 1000)
+  console.log('All News Updated @ ', time, " | Current Interval: ", INTERVAL/1000, ' seconds')
   const cloudObj = getSources()
   cloudObj.then((apiResponses) => {
     // Flatten the array
