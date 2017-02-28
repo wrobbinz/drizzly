@@ -4,29 +4,41 @@ import bodyParser 		                  from 'body-parser'
 import rp 				                      from 'request-promise'
 import _                                from 'lodash'
 import { newsApiSource, filteredWord }  from './modules/sources'
+import db                               from '../../queries'
+
+const INTERVAL = 30000
 
 // router
-export default ({ config, db }) => {
+export default ({ config }) => {
   let news = Router()
-  news.get('/', (req, res) => {
-    const cloudObj = getSources()
-    cloudObj.then((apiResponses) => {
-      // Flatten the array
-      // From: [['source1article1', 'source1article2'], ['source2article1'], ...]
-      // To: ['source1article1', 'source1article2', 'source2article1', ...]
-      const articles = [].concat.apply([], apiResponses)
-      // Pass the articles as parameter
-      const wordCloud = processWordBank(articles)
-      // Respond with the processed object
-      res.json( wordCloud )
-    })
-	})
-  news.post('/', (req, res) => {
-    console.log('POST request to /news/')
-  })
+  news.get('/', db.getAllNews)
 
+  news.post('/', (req, res) => {
+    createAllNews()
+    res.json({
+      status: 'success',
+      message: 'Updated AllNews'
+    })
+  })
   return news
 }
+
+let createAllNews = (req, res) => {
+  console.log('All News Updated @ Interval: ', INTERVAL/1000, ' seconds')
+  const cloudObj = getSources()
+  cloudObj.then((apiResponses) => {
+    // Flatten the array
+    // From: [['source1article1', 'source1article2'], ['source2article1'], ...]
+    // To: ['source1article1', 'source1article2', 'source2article1', ...]
+    const articles = [].concat.apply([], apiResponses)
+    // Pass the articles as parameter
+    const wordCloud = processWordBank(articles)
+    // Respond with the processed object
+    //res.json( wordCloud )
+    db.updateAllNews(wordCloud)
+  })
+}
+
 
 // create list of words (sourceString) by pulling news data from various sources
 var getSources = () => {
@@ -154,7 +166,6 @@ var getWordFreq = (arr) => {
     return [a, b]
 }
 
-// myArray = [{"text":"First","size":15},{"text":"Not","size":29}]
 var sortToObject = (words, count) => {
   var obj = []
   for (var i = 0; i < words.length; i++){
@@ -168,7 +179,10 @@ var sortToObject = (words, count) => {
       return b.size - a.size
       }
   )
-  // JSON.stringify(obj)
+  // assign each pair an id (1 - ?)
+  for (var i = 0; i < obj.length; i++){
+    obj[i].id = i + 1
+  }
   return obj
 }
 
@@ -182,3 +196,4 @@ Array.prototype.clean = function(deleteValue) {
   }
   return this
 }
+setInterval(createAllNews, INTERVAL)

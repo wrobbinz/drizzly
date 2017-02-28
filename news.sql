@@ -1,12 +1,611 @@
-DROP DATABASE IF EXISTS newspoint;
-CREATE DATABASE newspoint;
+DROP DATABASE IF EXISTS drizzly;
+CREATE DATABASE drizzly;
 
-\c newspoint;
+\c drizzly;
 
 CREATE TABLE news (
   ID SERIAL PRIMARY KEY,
-  words VARCHAR
+  word VARCHAR,
+  size INTEGER
 );
 
-INSERT INTO news (words)
-  VALUES ('json news string');
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
+INSERT INTO news (word, size)
+  VALUES ('Test', 100);
+
