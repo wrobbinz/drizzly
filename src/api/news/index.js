@@ -6,7 +6,7 @@ import _                                from 'lodash'
 import { newsApiSource, filteredWord }  from './modules/sources'
 import db                               from '../../queries'
 
-const INTERVAL = 20s00
+const INTERVAL = 20000
 
 // router
 export default ({ config }) => {
