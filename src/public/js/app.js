@@ -63,14 +63,14 @@ function loadCloud(obj){
   
 
   var w = window.screen.width // if you modify this also modify .append("g") .attr -- as half of this
-  var h = window.screen.height - 162
+  var h = window.screen.height - 122
   console.log("window width: ", w, "window height: ", h)
 
   d3.layout.cloud().size([w, h])
       .words(myArray) // from list.js
       .padding(5)
       .rotate(0)      
-      .font("Ubuntu Condensed, arial, sans-serif")
+      .font("Yantramanav")
       .fontSize(function(d) { return d.size })
       .on("end", drawCloud)
       .start()
@@ -85,7 +85,7 @@ function loadCloud(obj){
         .data(words)
         .enter().append("text")
         .style("font-size", function(d) { return (d.size) + "px" })
-        .style("font-family", "Ubuntu Condensed, arial, sans-serif")
+        .style("font-family", "Yantramanav")
         .style("fill", function(d, i) { return fillColor(i) })
         .attr("text-anchor", "middle")
         .attr("transform", function(d,i) {

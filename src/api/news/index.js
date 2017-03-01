@@ -6,7 +6,7 @@ import _                                from 'lodash'
 import { newsApiSource, filteredWord }  from './modules/sources'
 import db                               from '../../queries'
 
-const INTERVAL = 30000
+const INTERVAL = 20000
 
 // router
 export default ({ config }) => {
@@ -26,14 +26,14 @@ export default ({ config }) => {
 let createAllNews = (req, res) => {
   let time = Math.floor(Date.now() / 1000)
   console.log('All News Updated @ ', time, " | Current Interval: ", INTERVAL/1000, ' seconds')
-  const cloudObj = getSources()
-  cloudObj.then((apiResponses) => {
+  const sources = getSources()
+  sources.then((apiResponses) => {
     // Flatten the array
     // From: [['source1article1', 'source1article2'], ['source2article1'], ...]
     // To: ['source1article1', 'source1article2', 'source2article1', ...]
-    const articles = [].concat.apply([], apiResponses)
+    
     // Pass the articles as parameter
-    const wordCloud = processWordBank(articles)
+    const wordCloud = processWordBank(apiResponses)
     // Respond with the processed object
     //res.json( wordCloud )
     db.updateAllNews(wordCloud)
@@ -61,6 +61,7 @@ var getNewsApi = () => {
         // grab the url of each article. each url needs to be associated with a word
         let articleUrls = _.map(articles, 'url')
         let articleWords = _.map(articles, 'title') + _.map(articles, 'description')
+        let urlCheck = refineSource(articleWords)
         // The promise is fulfilled with the articleWords
         return articleWords
       })
@@ -73,22 +74,22 @@ var getNewsApi = () => {
 }
 
 
-// analyse word bank for patterns/trends
-var processWordBank = (articles) => {
-  articles = articles.join() // combine all article titles into one array element
-	let sourceArray = refineSource(articles) // word cleanup
-  sourceArray = combineCommon(sourceArray) // combine all words that appear more than once ex: "white house", "bernie sanders"
-  sourceArray = getWordFreq(sourceArray)
-  var obj = sortToObject(sourceArray[0], sourceArray[1])
-  obj = obj.slice(0, 200)
-  obj = normalizeSize(obj)
-  return obj
+// clean & analyse word bank for patterns/trends
+var processWordBank = (apiResponses) => {
+  let wordBank = [].concat.apply([], apiResponses)
+  wordBank = wordBank.join() // combine all article titles into one array element
+	wordBank = refineSource(wordBank) // word cleanup
+  wordBank = combineCommon(wordBank) // combine all words that appear more than once ex: "white house", "bernie sanders"
+  wordBank = getWordFreq(wordBank) // get frequency of each word
+  wordBank = sortToObject(wordBank[0], wordBank[1]) // convert word array and count array to object
+  wordBank = wordBank.slice(0, 200) // cut off irrelevant words
+  wordBank = normalize(wordBank) // normalize size values (so words dont get too big, and small words still show)
+  return wordBank
 }
 
-var normalizeSize = (arr) => {
-      let ratio = arr[0].size / 220, l = arr.length, i
-
-  for (i = 0; i < l; i++) {
+var normalize = (arr) => {
+  let ratio = arr[0].size / 250, l = arr.length
+  for (var i = 0; i < l; i++) {
       arr[i].size = Math.round(arr[i].size / ratio);
   }
   return arr
