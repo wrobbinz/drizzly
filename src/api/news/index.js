@@ -6,7 +6,7 @@ import _                                from 'lodash'
 import { newsApiSource, filteredWord }  from './modules/sources'
 import db                               from '../../queries'
 
-const INTERVAL = 20000
+const INTERVAL = 20s00
 
 // router
 export default ({ config }) => {
@@ -58,10 +58,10 @@ var getNewsApi = () => {
     return rp(options)
       .then((res) => {
         let articles = res.articles
+        let articleWords = _.map(articles, 'title') + _.map(articles, 'description')
         // grab the url of each article. each url needs to be associated with a word
         let articleUrls = _.map(articles, 'url')
-        let articleWords = _.map(articles, 'title') + _.map(articles, 'description')
-        let urlCheck = refineSource(articleWords)
+        // *TODO* figure out how best to map words and urls
         // The promise is fulfilled with the articleWords
         return articleWords
       })
@@ -71,6 +71,13 @@ var getNewsApi = () => {
   })
   // Return the promise that is fulfilled with all request values
   return Promise.all(apiCalls)
+}
+
+// *TODO* 
+// takes a string of words and array of urls, then 
+var matchUrls = (words, urls) => {
+  let article = {}
+
 }
 
 

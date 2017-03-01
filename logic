@@ -32,3 +32,28 @@ GET /api/news/
  - weighted
  - logarithmic scaling
  - about page cleanup
+
+
+
+ URLS: 
+
+Each article has a URL
+
+
+Create obj: article:
+{
+	"url":"https://cnn.com/article/politics",
+	"words": ["bernie", "hillary", "donald"]
+}
+
+
+
+Then
+
+If article.words has wordBank[i],
+
+then push article.url to wordBank[i].url
+
+
+
+
