@@ -97,7 +97,7 @@ var processWordBank = (apiResponses) => {
 var normalize = (arr) => {
   let ratio = arr[0].size / 250, l = arr.length
   for (var i = 0; i < l; i++) {
-      arr[i].size = Math.round(arr[i].size / ratio);
+    arr[i].size = Math.round(arr[i].size / ratio)
   }
   return arr
 }
