@@ -8,6 +8,8 @@ import db                               from '../../queries'
 
 const INTERVAL = 20000
 
+export const CLOUD_SIZE = 200
+
 // router
 export default ({ config }) => {
   let news = Router()
@@ -61,6 +63,7 @@ var getNewsApi = () => {
         let articleWords = _.map(articles, 'title') + _.map(articles, 'description')
         // grab the url of each article. each url needs to be associated with a word
         let articleUrls = _.map(articles, 'url')
+        console.log(articleWords[1], articleUrls[1])
         // *TODO* figure out how best to map words and urls
         // The promise is fulfilled with the articleWords
         return articleWords
@@ -89,7 +92,7 @@ var processWordBank = (apiResponses) => {
   wordBank = combineCommon(wordBank) // combine all words that appear more than once ex: "white house", "bernie sanders"
   wordBank = getWordFreq(wordBank) // get frequency of each word
   wordBank = sortToObject(wordBank[0], wordBank[1]) // convert word array and count array to object
-  wordBank = wordBank.slice(0, 200) // cut off irrelevant words
+  wordBank = wordBank.slice(0, CLOUD_SIZE) // get cream of the crop
   wordBank = normalize(wordBank) // normalize size values (so words dont get too big, and small words still show)
   return wordBank
 }

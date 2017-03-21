@@ -1,4 +1,5 @@
 import promise from 'bluebird'
+import { CLOUD_SIZE} from './api/news/index'
 
 let options = {
   // Initialization Options
@@ -21,9 +22,9 @@ function getAllNews(req, res) {
     .then(function (data) {
       res.status(200)
         .json({
-          status: 'success',
+          status_code: '200',
           data: data,
-          message: 'Retrieved news for All'
+          message: 'Retrieved ' + CLOUD_SIZE + ' words for category: ALL'
         })
     })
     .catch(function (err) {
