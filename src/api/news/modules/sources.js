@@ -214,6 +214,8 @@ export const newsApiSource = [
   }
 ]
 export const filteredWord = [
+  'new',
+  'will',
   '(ap)',
   'have',
   'no',
