@@ -5,7 +5,7 @@ get('http://localhost:8000/api/news')
   loadCloud(recreateArr(response))
 }, function(error) {
   console.error("Failed!", error)
-})  
+})
 
 function get(url) {
   // Return a new promise.
@@ -60,16 +60,16 @@ function loadCloud(obj){
   var fillColor = d3.scale.linear()
             .domain([0,1,2,3,4,5,6,10,15,20,100])
             .range(["#bf4240", "#122336", "#14243D", "#1B3650", "#1B3E50", "#265073", "#2E638A", "#337599", "#397EAC", "#4B95C3", "#579AC7", "#6AA1CD"])
-  
 
-  var w = window.screen.width // if you modify this also modify .append("g") .attr -- as half of this
-  var h = window.screen.height - 122
+
+  var w = window.innerWidth // if you modify this also modify .append("g") .attr -- as half of this
+  var h = window.innerHeight - 122
   console.log("window width: ", w, "window height: ", h)
 
   d3.layout.cloud().size([w, h])
       .words(myArray) // from list.js
       .padding(5)
-      .rotate(0)      
+      .rotate(0)
       .font("Yantramanav")
       .fontSize(function(d) { return d.size })
       .on("end", drawCloud)
