@@ -1,55 +1,34 @@
 {
   "name": "drizzly",
-  "version": "0.1.0",
-  "description": "Live news aggregation API and wordcloud",
-  "main": "dist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "dev": "nodemon -w src --exec \"babel-node src --presets es2015,stage-0\"",
-    "build": "babel src -s -D -d dist --presets es2015,stage-0",
-    "start": "node dist",
-    "prestart": "npm run -s build",
-    "test": "eslint src"
-  },
-  "eslintConfig": {
-    "extends": "eslint:recommended",
-    "parserOptions": {
-      "ecmaVersion": 7,
-      "sourceType": "module"
-    },
-    "env": {
-      "node": true
-    },
-    "rules": {
-      "no-console": 0,
-      "no-unused-vars": 1
-    }
+    "start": "nodemon --exec npm run babel-node -- src/app.js",
+    "babel-node": "babel-node",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "wrobbinz",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/wrobbinz/drizzly.git"
-  },
   "license": "MIT",
   "dependencies": {
-    "babel-cli": "^6.9.0",
-    "babel-core": "^6.9.0",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-stage-0": "^6.5.0",
-    "bluebird": "^3.4.7",
-    "body-parser": "^1.13.3",
-    "compression": "^1.5.2",
-    "cors": "^2.7.1",
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.0.0",
+    "babel-preset-env": "^1.6.0",
+    "body-parser": "^1.18.2",
     "dotenv": "^4.0.0",
-    "express": "^4.13.3",
+    "eslint": "^4.7.2",
+    "express": "^4.15.4",
+    "helmet": "^3.8.1",
     "lodash": "^4.17.4",
-    "mongodb": "^2.2.24",
-    "pg-promise": "^5.6.0",
-    "request": "^2.79.0",
-    "request-promise": "^4.1.1",
-    "resource-router-middleware": "^0.6.0"
+    "mongoose": "^4.11.12",
+    "morgan": "^1.8.2",
+    "request": "^2.82.0",
+    "request-promise": "^4.2.2"
   },
   "devDependencies": {
-    "eslint": "^3.1.1",
-    "nodemon": "^1.9.2"
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.3.0"
   }
 }
