@@ -12,6 +12,7 @@ router.get('/', (req, res) => {
     res.send({
       status: 200,
       message: 'Retrieved all users successfully',
+      count: words.length,
       data: words,
     })
   }).catch((err) => {
