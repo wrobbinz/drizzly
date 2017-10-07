@@ -1,4 +1,9 @@
 const banlist = [
+  'who',
+  'more',
+  'said',
+  'make',
+  'all',
   'new',
   'will',
   '(ap)',
