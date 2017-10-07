@@ -2,21 +2,21 @@ import db from '../models/'
 import getNewsAPI from './newsapi/newsapi'
 
 
-const INTERVAL = 8000
-const CLOUD_SIZE = 200
+const INTERVAL = 5000
+const CLOUD_SIZE = 6000
 
 async function createCloud() {
-  return getNewsAPI().then((payload) => {
-    // console.log('payload: ', payload)
-    db.Words.remove().then(() => {
-      db.Words.insertMany(payload).then(() => {
-        console.log('sucess!')
+  try {
+    const payload = await getNewsAPI()
+    payload.splice(CLOUD_SIZE)
+    db.Words.remove({}, () => {
+      db.Words.insertMany(payload, () => {
       })
     })
-  })
-    .catch((err) => {
-      console.log(err.message)
-    })
+  } catch (err) {
+    console.log(err.message) // eslint-disable-line no-console
+  }
 }
 
+export default createCloud
 setInterval(createCloud, INTERVAL)
