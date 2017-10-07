@@ -5,7 +5,6 @@ const wordsSchema = new mongoose.Schema({
   word: {
     type: String,
     required: true,
-    unique: true,
   },
   weight: {
     type: Number,
