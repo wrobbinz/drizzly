@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
   db.Words.find().then((words) => {
     res.send({
       status: 200,
-      message: 'Retrieved all users successfully',
+      message: 'Retrieved all news successfully',
       count: words.length,
       data: words,
     })
