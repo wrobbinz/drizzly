@@ -4,6 +4,7 @@ import {} from 'dotenv/config'
 import sources from './sources'
 import banlist from '../banlist'
 
+
 async function getSource(source) {
   let res
   try {
@@ -58,7 +59,7 @@ function parseArticles(articles) {
 }
 
 function mergeDuplicates(arr) {
-  const words = arr
+  const words = _.flatten(arr)
   let output = []
   words.forEach((object) => {
     const obj = object
@@ -78,40 +79,6 @@ function mergeDuplicates(arr) {
   return output
 }
 
-function combineCommon(arr) {
-  const words = _.flatten(arr)
-  const dictionary = {}
-  for (let i = 0; i < words.length - 1; i += 1) {
-    words[i].word = words[i].word.trim()
-    const A = words[i].word
-    if (dictionary[A] === undefined) {
-      dictionary[A] = []
-    }
-    dictionary[A].push(words[i + 1].word)
-  }
-  let res = []
-  for (let i = 0; i < words.length; i += 1) {
-    const element = words[i].word
-    let pass = false
-    if (typeof dictionary[element] !== 'undefined' && dictionary[element].length > 1) {
-      if (dictionary[element].some(a => a !== dictionary[element][0]) === false) {
-        pass = true
-      }
-    }
-    if (pass) {
-      words[i].word += ` ${dictionary[element][0]}`
-      console.log(words[i], dictionary[element][0])
-      res.push(words[i])
-      i += 1
-    } else {
-      res.push(words[i])
-    }
-  }
-  res = _.orderBy(res, 'weight', 'desc')
-  // res = mergeDuplicates(res)
-  return res
-}
-
 async function getNewsAPI() {
   let output
   try {
@@ -123,8 +90,6 @@ async function getNewsAPI() {
   } catch (err) {
     console.log(err.message) // eslint-disable-line no-console
   }
-  output = combineCommon(output)
-  // console.log(output) // eslint-disable-line no-console
   output = mergeDuplicates(output)
   return output
 }

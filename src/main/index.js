@@ -3,7 +3,7 @@ import getNewsAPI from './newsapi/newsapi'
 
 
 const INTERVAL = 5000
-const CLOUD_SIZE = 6000
+const CLOUD_SIZE = 20
 
 async function createCloud() {
   try {
