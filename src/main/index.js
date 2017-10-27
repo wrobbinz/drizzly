@@ -2,7 +2,7 @@ import db from '../models/'
 import getNewsAPI from './newsapi/newsapi'
 
 
-const INTERVAL = 5000
+const INTERVAL = 10000
 const CLOUD_SIZE = 20
 
 async function createCloud() {
