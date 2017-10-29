@@ -5,12 +5,21 @@ Table of Contents
 - [Introduction](#introduction)
 - [How it works](#how-it-works)
 - [News](#news)
-  - [Retrieve a News Object](#retrieve-a-news-object)
-  - [List all News](#list-all-news)
+  - [Retrieve a News Object](#retrieve-a-news-object-get-apiv1newsid)
+  - [List all News](#list-all-news-get-apiv1news)
 
 ## Introduction
 
 Drizzly is pretty simple. It aggregates news/articles/posts from all sorts of internet sources, and tries to determine what the hell is happening right now. Currently, that involves scraping all available sources, determining word prevalence, then sorting and assigning by weighted value.
+
+## How it Works
+
+- Get news/articles/posts from all sources
+- Sanitize responses into alphanumerical words
+- Determine prevalence/weight
+- Assign URLs to each object
+- Merge duplicate occurences
+- Upload to DB
 
 ## News
 
