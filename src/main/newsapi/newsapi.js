@@ -33,8 +33,8 @@ function addWordFreq(words) {
   const arr = Object.keys(wordFreqs)
   return arr.map((word) => {
     const wordObj = {
-      word,
-      weight: wordFreqs[word],
+      text: word,
+      value: wordFreqs[word],
     }
     return wordObj
   })
@@ -63,18 +63,18 @@ function mergeDuplicates(arr) {
   let output = []
   words.forEach((object) => {
     const obj = object
-    const existing = output.filter(v => v.word === obj.word)
+    const existing = output.filter(v => v.text === obj.text)
     if (existing.length) {
       const existingIndex = output.indexOf(existing[0])
       output[existingIndex].url = output[existingIndex].url.concat(obj.url)
       output[existingIndex].url = _.uniq(output[existingIndex].url)
-      output[existingIndex].weight += obj.weight
+      output[existingIndex].value += obj.value
     } else if (typeof obj.url === 'string') {
       obj.url = [obj.url]
       output.push(obj)
     }
   })
-  output = _.orderBy(output, 'weight', 'desc')
+  output = _.orderBy(output, 'value', 'desc')
   output = _.flatten(output)
   return output
 }

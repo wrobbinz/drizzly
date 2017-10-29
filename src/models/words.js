@@ -2,11 +2,11 @@ import mongoose from 'mongoose'
 
 
 const wordsSchema = new mongoose.Schema({
-  word: {
+  text: {
     type: String,
     required: true,
   },
-  weight: {
+  value: {
     type: Number,
     required: true,
   },
