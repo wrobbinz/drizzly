@@ -6,9 +6,18 @@ const app = express()
 const router = express.Router()
 app.use(express.json())
 
+const CLOUD_SIZE = 250
+
 router.get('/', (req, res) => {
-  db.Words.find().then((words) => {
-    res.send({
+  if (req.query.limit > 1000) {
+    res.status(400).send({
+      status: 400,
+      message: `Error: Limit of ${req.query.limit} is too high (max is 1000)`,
+    })
+  }
+  const limit = typeof req.query.limit !== 'undefined' ? req.query.limit : CLOUD_SIZE
+  db.Words.find({ _id: { $lte: limit } }).then((words) => {
+    res.status(200).send({
       status: 200,
       message: 'Retrieved all news successfully',
       count: words.length,
