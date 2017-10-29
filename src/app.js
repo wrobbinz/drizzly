@@ -1,5 +1,4 @@
 import express from 'express'
-import bodyParser from 'body-parser'
 import morgan from 'morgan'
 import helmet from 'helmet'
 import cors from 'cors'
@@ -11,7 +10,7 @@ const app = express()
 app.use(helmet())
 app.use(cors())
 app.use(morgan('dev'))
-app.use(bodyParser.json())
+app.use(express.json())
 
 // Routes
 app.get('/', (req, res) => {
