@@ -2,6 +2,7 @@ import express from 'express'
 import morgan from 'morgan'
 import helmet from 'helmet'
 import cors from 'cors'
+import compression from 'compression'
 import newsRoutes from './routes/news'
 import main from './main'
 
@@ -10,6 +11,7 @@ const app = express()
 app.use(helmet())
 app.use(cors())
 app.use(morgan('dev'))
+app.use(compression())
 app.use(express.json())
 
 // Routes
