@@ -1,5 +1,15 @@
 # 🌧 Drizzly API
 
+Table of Contents
+
+- [Introduction](#introduction)
+- [How it works](#how-it-works)
+- [News](#news)
+  - [Retrieve a News Object](#retrieve-a-news-object)
+  - [List all News](#list-all-news)
+
+## Introduction
+
 Drizzly is pretty simple. It aggregates news/articles/posts from all sorts of internet sources, and tries to determine what the hell is happening right now. Currently, that involves scraping all available sources, determining word prevalence, then sorting and assigning by weighted value.
 
 ## News
