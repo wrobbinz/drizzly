@@ -4,6 +4,7 @@ import db from '../models/'
 
 const app = express()
 const router = express.Router()
+app.use(express.json())
 
 router.get('/', (req, res) => {
   db.Words.find().then((words) => {
