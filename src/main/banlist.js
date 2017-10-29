@@ -1,4 +1,7 @@
 const banlist = [
+  '(video)',
+  'we',
+  'here',
   'who',
   'more',
   'said',
