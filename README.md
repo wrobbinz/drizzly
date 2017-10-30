@@ -63,7 +63,7 @@ Retrieves a single news object.
 
 ### List all News `GET` `/api/v1/news/`
 
-Retrieves an array of news objects. Drizzly returns 200 words by default. You can use the `limit` query parameter to retrieve from 1 to 1000 words.
+Retrieves an array of news objects. Drizzly returns 25 words by default. You can use the `limit` query parameter to retrieve from 1 to 1000 words.
 
 #### Request
 
