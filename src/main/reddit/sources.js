@@ -5,6 +5,11 @@ const sources = [
     rank: 1,
   },
   {
+    name: 'geopolitics',
+    sector: ['politics'],
+    rank: 1,
+  },
+  {
     name: 'investing',
     sector: ['business'],
     rank: 1,
@@ -22,6 +27,11 @@ const sources = [
   {
     name: 'nba',
     sector: ['sports'],
+    rank: 1,
+  },
+  {
+    name: 'neutralnews',
+    sector: ['general', 'politics'],
     rank: 1,
   },
   {
