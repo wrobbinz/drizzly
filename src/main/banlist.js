@@ -1,4 +1,7 @@
 const banlist = [
+  'got',
+  '|',
+  'spoiler',
   'null',
   '(video)',
   'we',
