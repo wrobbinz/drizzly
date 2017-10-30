@@ -1,8 +1,8 @@
 import request from 'request-promise'
-import _ from 'lodash'
+import { flatten } from 'lodash'
 import {} from 'dotenv/config'
 import sources from './sources'
-import banlist from '../banlist'
+import { sanitize, addWordFreq, mergeDuplicates } from '../util'
 
 
 async function getSource(source) {
@@ -20,28 +20,6 @@ async function getSource(source) {
   res = res.data.children.filter(article => article.data.stickied === false)
   return res
 }
-// accept array
-// return [{word: 'hurricane'}]
-function sanitize(words) {
-  const sanitizedWords = words
-  return sanitizedWords.map(word => word.trim()
-    .toLowerCase()
-    .replace(/–|"|,|!|\?|\u2022|-|—|:|' | '|\/r\/| {2}/g, ' ')
-    .replace(/\.|…|'s|'|(|)|\[|\]|\||[\u2018\u2019\u201A\u201B\u2032\u2035]|\|/g, ''))
-    .filter(word => banlist.find(ele => ele === word) !== word)
-}
-
-function addWordFreq(words) {
-  const wordFreqs = _.countBy(words)
-  const arr = Object.keys(wordFreqs)
-  return arr.map((word) => {
-    const wordObj = {
-      text: word,
-      value: wordFreqs[word],
-    }
-    return wordObj
-  })
-}
 
 function parseArticles(articles) {
   let output = []
@@ -57,44 +35,19 @@ function parseArticles(articles) {
     })
     output.push(words)
   })
-  output = _.flatten(output)
-  return output
-}
-
-function mergeDuplicates(arr) {
-  const words = _.flatten(arr)
-  let output = []
-  words.forEach((object) => {
-    const obj = object
-    const existing = output.filter(v => v.text === obj.text)
-    if (existing.length) {
-      const existingIndex = output.indexOf(existing[0])
-      output[existingIndex].url = output[existingIndex].url.concat(obj.url)
-      output[existingIndex].url = _.uniq(output[existingIndex].url)
-      output[existingIndex].value += obj.value
-    } else if (typeof obj.url === 'string') {
-      obj.url = [obj.url]
-      output.push(obj)
-    }
-  })
-  output = _.orderBy(output, 'value', 'desc')
-  output = _.flatten(output)
+  output = flatten(output)
   return output
 }
 
 async function getReddit() {
-  let output
+  let words
   try {
-    output = await Promise.all(sources.map(async (source) => {
-      const articles = await getSource(source)
-      const words = parseArticles(articles)
-      return words
-    }))
+    words = await Promise.all(sources.map(async source => parseArticles(await getSource(source))))
   } catch (err) {
     console.log(err.message) // eslint-disable-line no-console
   }
-  output = mergeDuplicates(output)
-  return output
+  words = mergeDuplicates(words)
+  return words
 }
 
 export default getReddit
