@@ -15,8 +15,10 @@ async function getSource(source) {
   } catch (err) {
     console.log(`Error: Failed to get ${source.name}`, err.message) // eslint-disable-line no-console
   }
-  res = res.data.children.filter(article => article.data.stickied === false) // Filter out stickied posts
-  return res.data.children
+
+  // Filter out stickied posts
+  res = res.data.children.filter(article => article.data.stickied === false)
+  return res
 }
 // accept array
 // return [{word: 'hurricane'}]
@@ -25,7 +27,7 @@ function sanitize(words) {
   return sanitizedWords.map(word => word.trim()
     .toLowerCase()
     .replace(/–|"|,|!|\?|\u2022|-|—|:|' | '|\/r\/| {2}/g, ' ')
-    .replace(/\.|…|'s|'|(|)|\||[\u2018\u2019\u201A\u201B\u2032\u2035]|\|/g, ''))
+    .replace(/\.|…|'s|'|(|)|\[|\]|\||[\u2018\u2019\u201A\u201B\u2032\u2035]|\|/g, ''))
     .filter(word => banlist.find(ele => ele === word) !== word)
 }
 
@@ -34,8 +36,8 @@ function addWordFreq(words) {
   const arr = Object.keys(wordFreqs)
   return arr.map((word) => {
     const wordObj = {
-      word,
-      weight: wordFreqs[word],
+      text: word,
+      value: wordFreqs[word],
     }
     return wordObj
   })
@@ -44,18 +46,13 @@ function addWordFreq(words) {
 function parseArticles(articles) {
   let output = []
   articles.forEach((article) => {
-    const source = {
-      url: article.data.url,
-      title: article.data.title,
-      image: article.data.preview.images[0].source.url,
-    }
-
+    const url = article.data.url
     let words = `${article.data.title}`.split(' ')
     words = sanitize(words)
     words = addWordFreq(words)
     words.map((word) => {
       const obj = word
-      obj.sources = [].push(source)
+      obj.url = url
       return obj
     })
     output.push(words)
@@ -69,18 +66,18 @@ function mergeDuplicates(arr) {
   let output = []
   words.forEach((object) => {
     const obj = object
-    const existing = output.filter(v => v.word === obj.word)
+    const existing = output.filter(v => v.text === obj.text)
     if (existing.length) {
       const existingIndex = output.indexOf(existing[0])
       output[existingIndex].url = output[existingIndex].url.concat(obj.url)
       output[existingIndex].url = _.uniq(output[existingIndex].url)
-      output[existingIndex].weight += obj.weight
+      output[existingIndex].value += obj.value
     } else if (typeof obj.url === 'string') {
       obj.url = [obj.url]
       output.push(obj)
     }
   })
-  output = _.orderBy(output, 'weight', 'desc')
+  output = _.orderBy(output, 'value', 'desc')
   output = _.flatten(output)
   return output
 }
