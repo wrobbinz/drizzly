@@ -10,7 +10,7 @@ function sanitize(words) {
     .filter(word => banlist.find(ele => ele === word) !== word)
 }
 
-function addWordFreq(words) {
+function getWordFreq(words) {
   const wordFreqs = countBy(words)
   const arr = Object.keys(wordFreqs)
   return arr.map((word) => {
@@ -30,11 +30,11 @@ function mergeDuplicates(arr) {
     const existing = output.filter(v => v.text === obj.text)
     if (existing.length) {
       const existingIndex = output.indexOf(existing[0])
-      output[existingIndex].url = output[existingIndex].url.concat(obj.url)
-      output[existingIndex].url = uniq(output[existingIndex].url)
+      output[existingIndex].source = output[existingIndex].source.concat(obj.source)
+      output[existingIndex].source = uniq(output[existingIndex].source)
       output[existingIndex].value += obj.value
-    } else if (typeof obj.url === 'string') {
-      obj.url = [obj.url]
+    } else if (typeof obj.source === 'object') {
+      obj.source = [obj.source]
       output.push(obj)
     }
   })
@@ -43,4 +43,4 @@ function mergeDuplicates(arr) {
   return output
 }
 
-export { sanitize, addWordFreq, mergeDuplicates }
+export { sanitize, getWordFreq, mergeDuplicates }

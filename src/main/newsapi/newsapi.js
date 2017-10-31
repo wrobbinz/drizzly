@@ -1,8 +1,7 @@
 import request from 'request-promise'
-import { flatten } from 'lodash'
 import {} from 'dotenv/config'
 import sources from './sources'
-import { sanitize, addWordFreq, mergeDuplicates } from '../util'
+import { sanitize, getWordFreq, mergeDuplicates } from '../util'
 
 
 async function getSource(source) {
@@ -18,33 +17,33 @@ async function getSource(source) {
   return res.articles
 }
 
-function parseArticles(articles) {
-  let output = []
-  articles.forEach((article) => {
-    const url = article.url
-    let words = `${article.title} ${article.description}`.split(' ')
-    words = sanitize(words)
-    words = addWordFreq(words)
-    words.map((word) => {
-      const obj = word
-      obj.url = url
-      return obj
-    })
-    output.push(words)
-  })
-  output = flatten(output)
-  return output
-}
-
 async function getNewsAPI() {
-  let words
+  let res
   try {
-    words = await Promise.all(sources.map(async source => parseArticles(await getSource(source))))
+    res = await Promise.all(sources.map(async (src) => {
+      const output = []
+      await getSource(src).forEach((article) => {
+        const source = {
+          title: article.title,
+          description: article.description,
+          url: article.url,
+          image: article.urlToImage,
+          date: article.publishedAt,
+        }
+        const words = sanitize(`${article.title} ${article.description}`.split(' '))
+        words.map(word => ({
+          text: word,
+          value: getWordFreq(words),
+          sources: [source],
+        }))
+        output.push(words)
+      })
+      return output
+    }))
   } catch (err) {
     console.log(err.message) // eslint-disable-line no-console
   }
-  words = mergeDuplicates(words)
-  return words
+  return mergeDuplicates(...res)
 }
 
 export default getNewsAPI
