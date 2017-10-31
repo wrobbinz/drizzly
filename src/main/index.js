@@ -9,6 +9,7 @@ const CLOUD_SIZE = 1000
 
 async function createCloud() {
   let payload
+  let successes = 0
   try {
     payload = [
       await getNewsAPI(),
@@ -22,11 +23,14 @@ async function createCloud() {
   payload.forEach((obj, idx) => {
     const word = obj
     const index = idx + 1
-    db.Words.findByIdAndUpdate(idx + 1, word, { upsert: true }, (err, doc) => {
+    db.Words.findByIdAndUpdate(idx + 1, word, { upsert: true }, (err) => {
       if (err) {
         console.log(err)
       } else {
-        // console.log(doc)
+        successes += 1
+        if (successes === CLOUD_SIZE) {
+          console.log('DB Update Sucessful!')
+        }
       }
     })
   })
