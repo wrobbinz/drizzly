@@ -10,9 +10,10 @@ const CLOUD_SIZE = 1000
 async function createCloud() {
   let payload
   try {
-    const newsAPI = await getNewsAPI()
-    const reddit = await getReddit()
-    payload = newsAPI.concat(reddit)
+    payload = [
+      await getNewsAPI(),
+      await getReddit(),
+    ]
   } catch (err) {
     console.log(err.message) // eslint-disable-line no-console
   }
@@ -21,7 +22,7 @@ async function createCloud() {
   payload.forEach((obj, idx) => {
     const word = obj
     const index = idx + 1
-    db.Words.findByIdAndUpdate(index, word, (err, doc) => {
+    db.Words.findByIdAndUpdate(idx + 1, word, { upsert: true }, (err, doc) => {
       if (err) {
         console.log(err)
       } else {
