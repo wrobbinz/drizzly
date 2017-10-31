@@ -73,6 +73,12 @@ const sources = [
     sort: 'top',
   },
   {
+    name: 'fortune',
+    sector: ['general', 'technology'],
+    rank: 4,
+    sort: 'top',
+  },
+  {
     name: 'fox-sports',
     sector: ['general'],
     rank: 4,
@@ -133,6 +139,12 @@ const sources = [
     sort: 'top',
   },
   {
+    name: 'new-york-magazine',
+    sector: ['politics', 'entertainment'],
+    rank: 4,
+    sort: 'top',
+  },
+  {
     name: 'reddit-r-all',
     sector: ['general'],
     rank: 4,
@@ -147,6 +159,12 @@ const sources = [
   {
     name: 'techcrunch',
     sector: ['general'],
+    rank: 4,
+    sort: 'top',
+  },
+  {
+    name: 'techradar',
+    sector: ['technology'],
     rank: 4,
     sort: 'top',
   },
