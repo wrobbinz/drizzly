@@ -14,9 +14,7 @@ const wordsSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  url: {
-    type: [String],
-  },
+  sources: [],
 }, { _id: false })
 
 const Words = mongoose.model('Words', wordsSchema)
