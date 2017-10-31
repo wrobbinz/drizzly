@@ -14,6 +14,14 @@ Drizzly is pretty simple. It aggregates news/articles/posts from all sorts of in
 
 ## How it Works
 
+### Stack
+
+Back
+- Node/Express
+- MongoDB/Mongoose _(it actually makes sense here)_
+
+### Logic
+
 - Get news/articles/posts from all sources
 - Sanitize responses into alphanumerical words
 - Determine prevalence/weight
