@@ -1,4 +1,4 @@
-import { countBy, flatten, uniq, orderBy } from 'lodash'
+import { countBy, flattenDeep, uniq, orderBy } from 'lodash'
 import banlist from './banlist'
 
 function sanitize(words) {
@@ -10,36 +10,27 @@ function sanitize(words) {
     .filter(word => banlist.find(ele => ele === word) !== word)
 }
 
-function getWordFreq(words) {
-  const wordFreqs = countBy(words)
-  const arr = Object.keys(wordFreqs)
-  return arr.map((word) => {
-    const wordObj = {
-      text: word,
-      value: wordFreqs[word],
-    }
-    return wordObj
-  })
+function getWordFreq(words, word) {
+  return countBy(words)[word]
 }
 
 function mergeDuplicates(arr) {
-  const words = flatten(arr)
+  const words = flattenDeep(arr)
   let output = []
   words.forEach((object) => {
     const obj = object
     const existing = output.filter(v => v.text === obj.text)
     if (existing.length) {
       const existingIndex = output.indexOf(existing[0])
-      output[existingIndex].source = output[existingIndex].source.concat(obj.source)
-      output[existingIndex].source = uniq(output[existingIndex].source)
+      output[existingIndex].sources = output[existingIndex].sources.concat(obj.sources)
+      output[existingIndex].sources = uniq(output[existingIndex].sources)
       output[existingIndex].value += obj.value
-    } else if (typeof obj.source === 'object') {
-      obj.source = [obj.source]
+    } else {
       output.push(obj)
     }
   })
   output = orderBy(output, 'value', 'desc')
-  output = flatten(output)
+  output = flattenDeep(output)
   return output
 }
 

@@ -1,32 +1,11 @@
-import { flatten, orderBy, uniq } from 'lodash'
 import db from '../models/'
 import getNewsAPI from './newsapi/newsapi'
 import getReddit from './reddit/reddit'
+import { mergeDuplicates } from './util'
 
 
 const INTERVAL = 10000
 const CLOUD_SIZE = 1000
-
-function mergeDuplicates(arr) {
-  const words = flatten(arr)
-  let output = []
-  words.forEach((object) => {
-    const obj = object
-    const existing = output.filter(v => v.text === obj.text)
-
-    if (existing.length) {
-      const existingIndex = output.indexOf(existing[0])
-      output[existingIndex].url = output[existingIndex].url.concat(obj.url)
-      output[existingIndex].url = uniq(output[existingIndex].url)
-      output[existingIndex].value += obj.value
-    } else {
-      output.push(obj)
-    }
-  })
-  output = orderBy(output, 'value', 'desc')
-  output = flatten(output)
-  return output
-}
 
 async function createCloud() {
   let payload

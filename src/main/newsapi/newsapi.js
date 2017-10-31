@@ -1,4 +1,5 @@
 import request from 'request-promise'
+import { flattenDeep } from 'lodash'
 import {} from 'dotenv/config'
 import sources from './sources'
 import { sanitize, getWordFreq, mergeDuplicates } from '../util'
@@ -14,7 +15,9 @@ async function getSource(source) {
   } catch (err) {
     console.log(`Error: Failed to get ${source.name}`, err.message) // eslint-disable-line no-console
   }
-  return res.articles
+
+  res = res.articles
+  return res
 }
 
 async function getNewsAPI() {
@@ -22,7 +25,8 @@ async function getNewsAPI() {
   try {
     res = await Promise.all(sources.map(async (src) => {
       const output = []
-      await getSource(src).forEach((article) => {
+      const articles = await getSource(src)
+      articles.forEach((article) => {
         const source = {
           title: article.title,
           description: article.description,
@@ -30,10 +34,10 @@ async function getNewsAPI() {
           image: article.urlToImage,
           date: article.publishedAt,
         }
-        const words = sanitize(`${article.title} ${article.description}`.split(' '))
-        words.map(word => ({
+        let words = sanitize(`${article.title} ${article.description}`.split(' '))
+        words = words.map(word => ({
           text: word,
-          value: getWordFreq(words),
+          value: getWordFreq(words, word),
           sources: [source],
         }))
         output.push(words)
@@ -43,7 +47,7 @@ async function getNewsAPI() {
   } catch (err) {
     console.log(err.message) // eslint-disable-line no-console
   }
-  return mergeDuplicates(...res)
+  return mergeDuplicates(flattenDeep(res))
 }
 
 export default getNewsAPI
