@@ -1,8 +1,8 @@
 import request from 'request-promise'
-import { flattenDeep } from 'lodash'
+import { flatten } from 'lodash'
 import {} from 'dotenv/config'
 import sources from './sources'
-import { sanitize, getWordFreq, mergeDuplicates } from '../util'
+import { sanitize, addWordFreq, mergeDuplicates } from '../util'
 
 
 async function getSource(source) {
@@ -15,39 +15,39 @@ async function getSource(source) {
   } catch (err) {
     console.log(`Error: Failed to get ${source.name}`, err.message) // eslint-disable-line no-console
   }
+
   // Filter out stickied posts
   res = res.data.children.filter(article => article.data.stickied === false)
   return res
 }
 
+function parseArticles(articles) {
+  let output = []
+  articles.forEach((article) => {
+    const url = article.data.url
+    let words = `${article.data.title}`.split(' ')
+    words = sanitize(words)
+    words = addWordFreq(words)
+    words.map((word) => {
+      const obj = word
+      obj.url = url
+      return obj
+    })
+    output.push(words)
+  })
+  output = flatten(output)
+  return output
+}
+
 async function getReddit() {
-  let res
+  let words
   try {
-    res = await Promise.all(sources.map(async (src) => {
-      const output = []
-      const articles = await getSource(src)
-      articles.forEach((article) => {
-        const source = {
-          title: article.data.title,
-          description: '',
-          url: article.data.url,
-          image: '',
-          date: article.data.created_utc,
-        }
-        let words = sanitize(`${article.data.title}`.split(' '))
-        words = words.map(word => ({
-          text: word,
-          value: getWordFreq(words, word),
-          sources: [source],
-        }))
-        output.push(words)
-      })
-      return output
-    }))
+    words = await Promise.all(sources.map(async source => parseArticles(await getSource(source))))
   } catch (err) {
     console.log(err.message) // eslint-disable-line no-console
   }
-  return mergeDuplicates(flattenDeep(res))
+  words = mergeDuplicates(words)
+  return words
 }
 
 export default getReddit
