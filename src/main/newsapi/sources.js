@@ -49,6 +49,12 @@ const sources = [
     sort: 'top',
   },
   {
+    name: 'cnn',
+    sector: ['general', 'politics'],
+    rank: 4,
+    sort: 'top',
+  },
+  {
     name: 'engadget',
     sector: ['general'],
     rank: 4,
@@ -141,6 +147,12 @@ const sources = [
   {
     name: 'new-york-magazine',
     sector: ['politics', 'entertainment'],
+    rank: 4,
+    sort: 'top',
+  },
+  {
+    name: 'recode',
+    sector: ['technology'],
     rank: 4,
     sort: 'top',
   },
