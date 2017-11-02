@@ -16,9 +16,10 @@ Drizzly is pretty simple. It aggregates news/articles/posts from all sorts of in
 
 ### Stack
 
-Back
+- Ubuntu 16.04
 - Node/Express
-- MongoDB/Mongoose _(it actually makes sense here)_
+- MongoDB/Mongoose
+- Mocha/Chai
 
 ### Logic
 
