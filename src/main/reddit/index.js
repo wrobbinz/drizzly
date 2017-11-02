@@ -9,18 +9,18 @@ async function getSource(source) {
   let res
   try {
     res = await request({
-      uri: `https://newsapi.org/v1/articles?source=${source.name}&sortBy=${source.sort}&apiKey=${process.env.NEWSAPI_PASS}`,
+      uri: `https://reddit.com/r/${source.name}.json`,
       json: true,
     })
   } catch (err) {
-    console.log(`Error: Failed to get ${source.name}`, err.message) // eslint-disable-line no-console
+    throw new Error(`Failed request for [r/${source.name}] (Reddit)`)
   }
-
-  res = res.articles
+  // Filter out stickied posts
+  res = res.data.children.filter(article => article.data.stickied === false)
   return res
 }
 
-async function getNewsAPI() {
+async function getReddit() {
   let res
   try {
     res = await Promise.all(sources.map(async (src) => {
@@ -28,13 +28,13 @@ async function getNewsAPI() {
       const articles = await getSource(src)
       articles.forEach((article) => {
         const source = {
-          title: article.title,
-          description: article.description,
-          url: article.url,
-          image: article.urlToImage,
-          date: article.publishedAt,
+          title: article.data.title,
+          description: '',
+          url: article.data.url,
+          image: '',
+          date: article.data.created_utc,
         }
-        let words = sanitize(`${article.title} ${article.description}`.split(' '))
+        let words = sanitize(`${article.data.title}`.split(' '))
         words = words.map(word => ({
           text: word,
           value: getWordFreq(words, word),
@@ -45,9 +45,9 @@ async function getNewsAPI() {
       return output
     }))
   } catch (err) {
-    console.log(err.message) // eslint-disable-line no-console
+    throw new Error('Failed to parse Reddit source')
   }
   return mergeDuplicates(flattenDeep(res))
 }
 
-export default getNewsAPI
+export default getReddit

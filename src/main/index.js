@@ -1,6 +1,6 @@
 import db from '../models/'
-import getNewsAPI from './newsapi/newsapi'
-import getReddit from './reddit/reddit'
+import getNewsAPI from './newsapi'
+import getReddit from './reddit'
 import { mergeDuplicates } from './util'
 
 
