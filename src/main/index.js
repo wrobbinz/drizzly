@@ -16,7 +16,7 @@ async function createCloud() {
       await getReddit(),
     ]
   } catch (err) {
-    console.log(err.message) // eslint-disable-line no-console
+    throw new Error('Failed to create Cloud')
   }
   payload = mergeDuplicates(payload)
   payload.splice(LIMIT)
