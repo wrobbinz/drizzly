@@ -4,9 +4,9 @@ Table of Contents
 
 - [Introduction](#introduction)
 - [How it works](#how-it-works)
-- [News](#news)
-  - [Retrieve a News Object](#retrieve-a-news-object-get-apiv1newsid)
-  - [List all News](#list-all-news-get-apiv1news)
+- [Words](#news)
+  - [Retrieve a Word Object](#retrieve-a-word-object-get-apiv1wordsid)
+  - [List all Words](#list-all-words-get-apiv1news)
 
 ## Introduction
 
@@ -30,33 +30,33 @@ Drizzly is pretty simple. It aggregates news/articles/posts from all sorts of in
 - Merge duplicate occurences
 - Upload to DB
 
-## News
+## Words
 
-The News object provides all relevant information about a currently trending word on the internet.
+The Word object provides all relevant information about a currently trending word on the internet.
 
 ### Attributes
 
 | Value | Type | Description
 |---: | --- | --- |
-| `_id` | number |A unique ID indicating the news object's rank (The news of `_id: 1` is the most popular).
+| `_id` | number |A unique ID indicating the word object's rank (The word of `_id: 1` is the most popular).
 | `text` | string | The word that is trending.
 | `value` | number | An integer representing the word's trending score. Currently this is determined by the number of occurences counted in all sources.
 | `url` | array | A list of urls (string) from which the word has been found.
 
-### Retrieve a News Object `GET` `/api/v1/news/:id`
+### Retrieve a Word Object `GET` `/api/v1/words/:id`
 
-Retrieves a single news object.
+Retrieves a single words object.
 
 #### Request
 
-`GET` `/api/v1/news/9`
+`GET` `/api/v1/words/9`
 
 #### Response
 
 ```json
 {
     "status": 200,
-    "message": "Retrieved news by ID: 9",
+    "message": "Retrieved word by ID: 9",
     "count": 1,
     "data": {
         "_id": 9,
@@ -70,20 +70,20 @@ Retrieves a single news object.
 }
 ```
 
-### List all News `GET` `/api/v1/news/`
+### List all Words `GET` `/api/v1/words/`
 
-Retrieves an array of news objects. Drizzly returns 25 words by default. You can use the `limit` query parameter to retrieve from 1 to 1000 words.
+Retrieves an array of word objects. Drizzly returns 25 words by default. You can use the `limit` query parameter to retrieve from 1 to 1000 words.
 
 #### Request
 
-`GET` `/api/v1/news?limit=2`
+`GET` `/api/v1/words?limit=2`
 
 #### Response
 
 ```json
 {
     "status": 200,
-    "message": "Retrieved all news successfully",
+    "message": "Retrieved all words successfully",
     "count": 2,
     "data": [
         {
