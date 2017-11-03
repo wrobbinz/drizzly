@@ -3,8 +3,8 @@ import morgan from 'morgan'
 import helmet from 'helmet'
 import cors from 'cors'
 import compression from 'compression'
-import newsRoutes from './routes/news'
 import main from './main'
+import wordsRoutes from './routes/words'
 
 
 const app = express()
@@ -25,9 +25,7 @@ app.use((req, res, next) => {
   err.status = 404
   next(err)
 })
-
-app.listen(6060, () => {
-  console.log('port: 6060') // eslint-disable-line no-console
-})
+// Create Cloud
+setInterval(createCloud, CLOUD_INTERVAL)
 
 export default app
