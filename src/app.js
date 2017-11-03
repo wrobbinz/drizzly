@@ -3,22 +3,23 @@ import morgan from 'morgan'
 import helmet from 'helmet'
 import cors from 'cors'
 import compression from 'compression'
-import main from './main'
 import wordsRoutes from './routes/words'
+import createCloud from './main'
 
 
 const app = express()
+const CLOUD_INTERVAL = 10000
+// Middleware
 app.use(morgan('dev'))
 app.use(helmet())
 app.use(cors())
 app.use(compression())
 app.use(express.json())
-
 // Routes
 app.get('/', (req, res) => {
   res.send('drizzly news!')
 })
-app.use('/api/v1/news', newsRoutes)
+app.use('/api/v1/words', wordsRoutes)
 // 404
 app.use((req, res, next) => {
   const err = new Error('Not Found (404)')

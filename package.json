@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec npm run babel-node -- src/app.js",
-    "babel-node": "babel-node",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node dist/bin/www",
+    "build": "babel src --out-dir dist",
+    "dev": "nodemon --exec npm run babel-node -- src/bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "babel-node": "babel-node"
   },
   "author": "wrobbinz",
   "license": "MIT",
