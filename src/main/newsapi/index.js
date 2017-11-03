@@ -13,7 +13,7 @@ async function getSource(source) {
       json: true,
     })
   } catch (err) {
-    throw new Error(`Failed request for [${source.name}] (News API)`)
+    throw new Error(`Request for [${source.name}] (News API) failed`)
   }
 
   res = res.articles
@@ -21,9 +21,8 @@ async function getSource(source) {
 }
 
 async function getNewsAPI() {
-  let res
   try {
-    res = await Promise.all(sources.map(async (src) => {
+    const res = await Promise.all(sources.map(async (src) => {
       const output = []
       const articles = await getSource(src)
       articles.forEach((article) => {
@@ -44,10 +43,10 @@ async function getNewsAPI() {
       })
       return output
     }))
+    return mergeDuplicates(flattenDeep(res))
   } catch (err) {
     throw new Error('Failed to parse Reddit source')
   }
-  return mergeDuplicates(flattenDeep(res))
 }
 
 export default getNewsAPI

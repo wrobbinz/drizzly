@@ -6,24 +6,22 @@ import { sanitize, getWordFreq, mergeDuplicates } from '../util'
 
 
 async function getSource(source) {
-  let res
   try {
-    res = await request({
+    let res = await request({
       uri: `https://reddit.com/r/${source.name}.json`,
       json: true,
     })
+    // Filter out stickied posts
+    res = res.data.children.filter(article => article.data.stickied === false)
+    return res
   } catch (err) {
-    throw new Error(`Failed request for [r/${source.name}] (Reddit)`)
+    throw new Error(`Request for [r/${source.name}] (Reddit) failed`)
   }
-  // Filter out stickied posts
-  res = res.data.children.filter(article => article.data.stickied === false)
-  return res
 }
 
 async function getReddit() {
-  let res
   try {
-    res = await Promise.all(sources.map(async (src) => {
+    const res = await Promise.all(sources.map(async (src) => {
       const output = []
       const articles = await getSource(src)
       articles.forEach((article) => {
@@ -44,10 +42,10 @@ async function getReddit() {
       })
       return output
     }))
+    return mergeDuplicates(flattenDeep(res))
   } catch (err) {
     throw new Error('Failed to parse Reddit source')
   }
-  return mergeDuplicates(flattenDeep(res))
 }
 
 export default getReddit
